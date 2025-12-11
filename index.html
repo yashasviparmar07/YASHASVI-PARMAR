@@ -1,123 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yashasvi Parmar | Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">Yashasvi Parmar</div>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#resume">Resume</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+import { useState, useEffect } from 'react';
+import { Sidebar } from '@/components/Sidebar';
+import { HeroSection } from '@/components/HeroSection';
+import { AboutSection } from '@/components/AboutSection';
+import { ResumeSection } from '@/components/ResumeSection';
+import { ProjectsSection } from '@/components/ProjectsSection';
+import { ContactSection } from '@/components/ContactSection';
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="hero-content">
-      <h1>Yashasvi Parmar</h1>
-      <p>Civil Engineer | Structural Design | BIM Modeling</p>
+const Index = () => {
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'resume', 'projects', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Sidebar activeSection={activeSection} />
+      
+      <main className="lg:ml-72">
+        <HeroSection />
+        <AboutSection />
+        <ResumeSection />
+        <ProjectsSection />
+        <ContactSection />
+        
+        {/* Footer */}
+        <footer className="py-8 text-center border-t border-border">
+          <p className="text-muted-foreground text-sm">
+            © {new Date().getFullYear()} Yashasvi Parmar. All Rights Reserved.
+          </p>
+        </footer>
+      </main>
     </div>
-  </section>
+  );
+};
 
-  <!-- Resume Section -->
-  <section id="resume" class="section resume">
-    <h2>Professional Summary</h2>
-    <p>Detail-oriented Civil Engineer with 5+ years of combined academic and professional experience in design, structural assessment, BIM modeling, and cost estimation. Skilled in preparing technical drawings, BOQs, compliance documentation, and site inspection reports. Adept at working with multidisciplinary teams to deliver safe, sustainable, and cost-effective engineering solutions.</p>
-
-    <h2>Key Skills</h2>
-    <ul>
-      <li>Structural & Civil Design | Engineering Analysis | QA/QC Verification</li>
-      <li>Revit, AutoCAD, Civil 3D, Naviswork QTO, SketchUp, Staad, Bluebeam, QGIS, SWMM</li>
-      <li>Quantity Takeoffs | Cost Estimation | BOQ Preparation</li>
-      <li>Site Inspections | Safety & Regulatory Compliance</li>
-      <li>Microsoft Project | MS Office Suite</li>
-    </ul>
-
-    <h2>Professional Experience</h2>
-    <div class="job">
-      <h3>Design & Planning Volunteer – Power From Within Clean Energy Society, Ontario, Canada</h3>
-      <p>Jan 2025 – Present</p>
-      <ul>
-        <li>Executed quantity takeoffs, preliminary estimates, and cost analyses to guide sustainable housing and community infrastructure projects.</li>
-        <li>Generated CAD drawings and Revit models for structural layout, ensuring compliance with local regulations and environmental standards.</li>
-        <li>Authored technical documentation, site layouts, and compliance reports for municipal approvals.</li>
-        <li>Partnered with engineers, architects, and Indigenous community leaders to align design intent with sustainability and cultural objectives.</li>
-      </ul>
-    </div>
-
-    <div class="job">
-      <h3>Junior Civil Engineer – Varsha Design Consultant, Ahmedabad, India</h3>
-      <p>May 2022 – Mar 2023</p>
-      <ul>
-        <li>Produced comprehensive BOQs, cost projections, and material schedules, enhancing project budgeting accuracy by 15%.</li>
-        <li>Drafted structural plans and 3D models, streamlining approval processes and construction coordination.</li>
-        <li>Oversaw site reviews and QA/QC inspections to validate conformance with the National Building Code of India.</li>
-        <li>Coordinated with contractors and senior engineers to deliver value-engineered design solutions for complex challenges.</li>
-        <li>Compiled tender documents and bid packages, contributing to successful contract awards.</li>
-      </ul>
-    </div>
-
-    <div class="job">
-      <h3>Junior Civil Engineer – Solcon Consultants, Vadodara, India</h3>
-      <p>May 2021 – Apr 2022</p>
-      <ul>
-        <li>Designed foundation and framing details for residential and industrial facilities, applying structural safety standards.</li>
-        <li>Measured and documented material quantities, construction costs, and project progress to support management decisions.</li>
-        <li>Developed AutoCAD-based layouts and detailed drafting outputs that improved clarity for construction teams.</li>
-        <li>Inspected works on-site, verifying safety practices, regulatory adherence, and design accuracy.</li>
-        <li>Facilitated collaboration between engineers and contractors, resulting in reduced rework and faster project delivery.</li>
-      </ul>
-    </div>
-
-    <h2>Education</h2>
-    <ul>
-      <li>Master of Civil Engineering – University of Windsor, ON, Canada</li>
-      <li>Bachelor of Civil Engineering – S.V.I.T., Gujarat, India</li>
-    </ul>
-
-    <h2>Project Highlights</h2>
-    <ul>
-      <li>25,000 sq.ft. Commercial Office Building – Hamilton, ON: Built LOD 300 Revit model, performed QTO & cost estimation (Navisworks + RSMeans), and prepared technical reports to resolve design discrepancies.</li>
-      <li>Curtain Wall & Window System Simulation: Designed façade layouts, performed structural analysis, and ensured compliance with safety and material standards.</li>
-    </ul>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="section projects">
-    <h2>Projects</h2>
-    <div class="project-grid">
-      <div class="project-card">
-        <h3>25,000 sq.ft. Commercial Office Building</h3>
-        <p>LOD 300 Revit model, QTO & cost estimation (Navisworks + RSMeans).</p>
-      </div>
-      <div class="project-card">
-        <h3>Curtain Wall & Window System Simulation</h3>
-        <p>Façade layouts, structural analysis, compliance with safety standards.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="section contact">
-    <h2>Contact</h2>
-    <p>Phone: (+1) 437-663-6069</p>
-    <p>Email: <a href="mailto:yashasviparmar99@gmail.com">yashasviparmar99@gmail.com</a></p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/yashasvi-parmar" target="_blank">Yashasvi Parmar</a></p>
-    <p>Portfolio: <a href="https://yashasviparmar07.github.io" target="_blank">View Site</a></p>
-  </section>
-
-  <footer>
-    <p>© 2025 Yashasvi Parmar. All Rights Reserved.</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+export default Index;
